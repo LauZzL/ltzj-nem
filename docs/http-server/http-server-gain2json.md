@@ -60,7 +60,7 @@ import (
 
 func main() {
 
-  url := "http://localhost:2026/open-api/p.f"
+  url := "http://localhost:2026/open-api/gain2json"
   method := "POST"
 
   payload := strings.NewReader("M1x100#,")
