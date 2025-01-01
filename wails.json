@@ -1,0 +1,12 @@
+{
+  "name": "ltzj-nem",
+  "outputfilename": "LTZJ-NEM Build 4",
+  "assetdir": "frontend/dist",
+  "wailsjsdir": "frontend/src",
+  "frontend:install": "yarn install",
+  "frontend:build": "yarn build",
+  "author": {
+    "name": "LauZzL",
+    "email": "lauzzl@163.com"
+  }
+}

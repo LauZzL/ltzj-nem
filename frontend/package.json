@@ -1,26 +1,28 @@
 {
-  "name": "leitingzhanji-ui",
+  "name": "ltzj-nem",
   "private": true,
-  "version": "3.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@codemirror/autocomplete": "^6.18.1",
-    "@codemirror/lang-javascript": "^6.2.2",
-    "@codemirror/theme-one-dark": "^6.1.2",
-    "codemirror": "^6.0.1",
-    "element-plus": "https://pkg.pr.new/element-plus/element-plus@0856227",
-    "pinia": "^2.2.2",
-    "vue": "^3.4.37",
-    "vue-codemirror": "^6.1.1",
-    "vue-router": "^4.4.3"
+    "@ant-design/icons-vue": "^7.0.1",
+    "@types/node": "^22.10.3",
+    "ant-design-vue": "4.x",
+    "buffer": "^6.0.3",
+    "less": "^4.2.1",
+    "less-loader": "^12.2.0",
+    "pinia": "^2.3.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.1.2",
-    "vite": "^5.4.6"
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.5",
+    "vue-tsc": "^2.2.0"
   }
 }
