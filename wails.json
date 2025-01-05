@@ -1,5 +1,6 @@
 {
   "name": "ltzj-nem",
+  "version": "4.0.0",
   "outputfilename": "LTZJ-NEM Build 4",
   "assetdir": "frontend/dist",
   "wailsjsdir": "frontend/src",
@@ -8,5 +9,12 @@
   "author": {
     "name": "LauZzL",
     "email": "lauzzl@163.com"
+  },
+  "info": {
+    "companyName": "LTZJ-NEM Build 4",
+    "productName": "LTZJ-NEM Build 4",
+    "productVersion": "4.0.0",
+    "copyright": "Copyright LTZJ-NEM",
+    "comments": "As you see"
   }
 }
