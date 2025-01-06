@@ -12,33 +12,79 @@
 
 ## 前言
 
-本仓库仅用于存档代码，记录版本日志。
+LTZJ-NEM Build 4 完全开源版本，支持 Windows、macOS。
+
+## 进度
+
+- [x] 基础架构
+- [x] SunnyNet集成
+- [x] 获取uid、sid
+- [x] 数据包加解密算法
+- [ ] actionTag算法
+- [x] 奖励格式化
+- [x] 奖励图标
+- [ ] 日常功能迁移
+- [ ] 闯关功能迁移
 
 ## 免责声明
 
 本项目仅供学习交流，请勿用于任何非法用途。
 
-## 下载
 
-[Releases](https://github.com/LauZzL/ltzj-nem/releases)
+## 开发
 
-## 插件
+你需要安装 Go 语言环境和Node 环境。
 
-[Plugin](./plugin)
+### 安装wails
 
-## 官方文档
+```shell
+go install github.com/wailsapp/wails/v2/cmd/wails@latest
+```
 
-[https://lauzzl.github.io/leitingzhanji-docs/](https://lauzzl.github.io/leitingzhanji-docs/)
+### macOS
 
+你需要安装 `xcode-command-line-tools`
+
+```bash
+xcode-select --install
+```
+
+### windows
+
+你需要安装 [`TDM-GCC`](https://jmeubank.github.io/tdm-gcc/) .
+
+
+
+### 安装依赖
+
+```bash
+# 下载依赖包
+go mod tidy
+
+# 安装前端依赖
+cd frontend && yarn install
+```
+
+### 启动
+
+```bash
+# 启动前端服务
+cd frontend && yarn dev
+
+# 启动wails
+wails dev -frontenddevserverurl "http://127.0.0.1:5173" -s
+```
+
+## 构建
+
+```bash
+wails build
+```
 
 ## 参考
 
 - [SunnyNet](https://github.com/qtgolang/SunnyNet)
 
-## 鸣谢
-
-- [@ASCIIX](https://github.com/ASCIIX)
-- [@Mofan1379](https://github.com/Mofan1379)
 
 ## Star History
 
