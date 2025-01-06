@@ -30,6 +30,7 @@
 import {reactive, ref, type UnwrapRef} from "vue";
 import {useAppStore} from "@/store/app.ts";
 import {useStatusStore} from "@/store/status.ts";
+import {useLoggerStore} from "@/store/logger.ts";
 import { PlayCircleFilled, PauseCircleFilled } from '@ant-design/icons-vue'
 import { StartSunnyCore, StopSunnyCore } from '@/wailsjs/go/main/App'
 import {message, Modal} from "ant-design-vue";
@@ -48,6 +49,7 @@ const formState: UnwrapRef<FormState> = reactive({
 
 const appStore = useAppStore();
 const statusStore = useStatusStore();
+const loggerStore = useLoggerStore();
 const open = ref(false)
 
 const inputPort = () => {
@@ -56,33 +58,57 @@ const inputPort = () => {
 
 const startSunnyCore = async () => {
   open.value = false
-  statusStore.globalLoadingText = "启动中SunnyCore中..."
+  statusStore.setGlobalLoadingText("启动中SunnyCore中...")
+  loggerStore.log("processing", "启动中SunnyCore中")
   statusStore.setGlobalLoading(true)
-  const result: Result = <Result>await StartSunnyCore(appStore.port)
-  statusStore.setGlobalLoading(false)
-  if (result.Code != 0) {
+  try {
+    const result: Result = <Result>await StartSunnyCore(appStore.port)
+    if (result.Code != 0) {
+      Modal.error({
+        title: '启动SunnyCore失败',
+        content: result.Msg,
+      });
+    }else{
+      message.success('启动成功，请重新登录游戏');
+      loggerStore.log("success", "启动成功，等待登录游戏中")
+    }
+  } catch (e){
     Modal.error({
       title: '启动SunnyCore失败',
-      content: result.Msg,
+      content: e,
     });
-    return
+    loggerStore.log("error", "启动SunnyCore失败")
+  } finally {
+    statusStore.setGlobalLoading(false)
   }
-  message.success('启动成功，请重新登录游戏');
 }
 
 const stopSunnyCore = async () => {
-  statusStore.globalLoadingText = "停止中SunnyCore中..."
+  statusStore.setGlobalLoadingText("停止SunnyCore中...")
+  loggerStore.log("processing", "停止SunnyCore中")
   statusStore.setGlobalLoading(true)
-  const result: Result = <Result>await StopSunnyCore()
-  statusStore.setGlobalLoading(false)
-  if (result.Code != 0) {
+  try {
+    const result: Result = <Result>await StopSunnyCore()
+    if (result.Code != 0) {
+      Modal.error({
+        title: '停止SunnyCore失败，请重试',
+        content: result.Msg,
+      });
+      loggerStore.log("error", "停止SunnyCore失败")
+    }else{
+      message.success('停止SunnyCore成功');
+      loggerStore.log("success", "停止SunnyCore成功")
+    }
+  } catch (e) {
     Modal.error({
       title: '停止SunnyCore失败，请重试',
-      content: result.Msg,
+      content: e,
     });
-    return
+    loggerStore.log("error", "停止SunnyCore失败")
+  } finally {
+    statusStore.setGlobalLoading(false)
   }
-  message.success('停止SunnyCore成功');
+
 }
 
 

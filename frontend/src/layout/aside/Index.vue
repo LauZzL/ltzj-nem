@@ -20,7 +20,7 @@ const router = useRouter();
 const routes = router.getRoutes();
 
 const menuList = routes.filter(
-    (item: any) => item.meta && item.meta.title && item.meta.isMenu
+    (item: any) => item.meta && item.meta.title && item.meta.isMenu && item.meta.menuType === 1
 );
 
 const items = menuList.map((item: any) => {
@@ -37,8 +37,6 @@ const handleClick = (e: any) => {
     router.push(e.key);
 };
 
-
-console.log(items);
 </script>
 
 <style scoped></style>
