@@ -1,4 +1,3 @@
-
 const constantRouterMap = [
   {
     path: '/',
@@ -8,28 +7,47 @@ const constantRouterMap = [
       {
         path: '/framework',
         name: 'Framework',
+        //@ts-ignore
         component: () => import('@/views/Framework.vue'),
         redirect: { name: 'FrameworkHome' },
         children: [
           {
             path: '/framework/home',
             name: 'FrameworkHome',
+            //@ts-ignore
             component: () => import('@/views/home/Index.vue'),
             meta: { 
               title: '首页',
               icon: 'icon-shouye-zhihui',
-              isMenu: true
+              isMenu: true,
+              menuType: 1
             },
           },
           {
-            path: '/framework/daily',
-            name: 'FrameworkDaily',
-            component: () => import('@/views/daily/Index.vue'),
+            path: '/framework/feature',
+            name: 'FrameworkFeature',
+            //@ts-ignore
+            component: () => import('@/views/feature/Index.vue'),
             meta: { 
-              title: '日常',
+              title: '功能',
               icon: 'icon-jichugongneng',
-              isMenu: true
+              isMenu: true,
+              menuType: 1
             },
+            redirect: { name: 'FrameworkFeatureDaily' },
+            children: [
+              {
+                path: '/framework/feature/daily',
+                name: 'FrameworkFeatureDaily',
+                //@ts-ignore
+                component: () => import('@/views/feature/daily/Index.vue'),
+                meta: {
+                  title: '日常',
+                  isMenu: true,
+                  menuType: 2
+                },
+              }
+            ]
           },
         ]
       },

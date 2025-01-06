@@ -5,6 +5,5 @@ export const useAppStore = defineStore('app', () => {
     const version = ref(null)
     const port = ref(2026)
 
-
     return { version, port }
 })
