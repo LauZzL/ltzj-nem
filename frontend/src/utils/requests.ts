@@ -1,9 +1,15 @@
 import {useStatusStore} from "@/store/status.ts";
+import {useUserStore} from "@/store/user.ts";
 
 const statusStore = useStatusStore()
+const userStore = useUserStore()
 
 const pf = async (payload: any) => {
   payload.head.cmdVersion = statusStore.cmdVersion
+  payload.head.cmdSequence = statusStore.getCmdSequence()
+  payload.head.sid = userStore.getSid()
+  payload.head.uid = userStore.getUid()
+  payload.head.timestamp = Date.now()
   //@ts-ignore
   const buffer = window.ltwasm.encrypt(payload)
   const requestOptions: RequestInit = {

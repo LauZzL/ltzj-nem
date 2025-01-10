@@ -1,12 +1,8 @@
 import {requests} from './requests.ts'
-import {useStatusStore} from "@/store/status.ts";
-import {useUserStore} from "@/store/user.ts";
 import {useLoggerStore} from "@/store/logger.ts";
 import {gain as Gain} from "@/utils/gain.ts";
 import common from "@/utils/common.ts";
 
-const {getCmdSequence} = useStatusStore()
-const {getUid, getSid} = useUserStore()
 const {log} = useLoggerStore()
 
 /**
@@ -34,15 +30,15 @@ export const api = {
                     "cmdDataSplitLength": 0,
                     "cmdId": 64,
                     "cmdLength": 0,
-                    "cmdSequence": getCmdSequence(),
+                    "cmdSequence": 0,
                     "cmdVersion": 20,
                     "headVersion": 0,
-                    "timestamp": Date.now(),
+                    "timestamp": 0,
                     "crcVerify": 0,
                     "platform": 0,
                     "reconnect": false,
-                    "sid": getSid(),
-                    "uid": getUid()
+                    "sid": "",
+                    "uid": ""
                 }
             }
             let result = await requests.pf(payload)
@@ -73,15 +69,15 @@ export const api = {
                     "cmdDataSplitLength": 0,
                     "cmdId": 11,
                     "cmdLength": 0,
-                    "cmdSequence": getCmdSequence(),
+                    "cmdSequence": 0,
                     "cmdVersion": 20,
                     "headVersion": 0,
-                    "timestamp": Date.now(),
+                    "timestamp": 0,
                     "crcVerify": 0,
                     "platform": 0,
                     "reconnect": false,
-                    "sid": getSid(),
-                    "uid": getUid()
+                    "sid": "",
+                    "uid": ""
                 },
                 "shopIndex": 4,
                 "sdTargetData": {"type": 12, "sd_id": args.type, "quality": 4, "level": 0, "num": execNum},
