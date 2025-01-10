@@ -5,12 +5,18 @@ import {useStatusStore} from "@/store/status.ts";
 import {useUserStore} from "@/store/user.ts";
 import {message} from "ant-design-vue";
 import {useLoggerStore} from "@/store/logger.ts";
+import {useAppStore} from "@/store/app.ts";
 
 const loggerStore = useLoggerStore();
 const statusStore = useStatusStore();
 const userStore = useUserStore();
+const appStore = useAppStore();
 
-
+//@ts-ignore
+window?.runtime?.EventsOn('AppInfo', (e: { Version: string }) => {
+  //@ts-ignore
+  appStore.version = e.Version;
+});
 
 //@ts-ignore
 if (!window?.ltwasm) {

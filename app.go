@@ -21,6 +21,16 @@ type Result struct {
 	Msg  string
 }
 
+type AppInfo struct {
+	Version string
+}
+
+var (
+	AppInfoData = AppInfo{
+		Version: "4.0.0",
+	}
+)
+
 func NewApp() *App {
 	return &App{}
 }
@@ -34,6 +44,7 @@ var ctxContent context.Context = nil
 
 func (a App) domReady(ctx context.Context) {
 	ctxContent = ctx
+	runtime.EventsEmit(ctx, "AppInfo", AppInfoData)
 }
 
 func (a *App) shutdown(ctx context.Context) {
