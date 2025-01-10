@@ -7,6 +7,7 @@ import { createPinia } from 'pinia'
 import './style.css'
 import 'ant-design-vue/dist/reset.css';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
+import {createStoragePlugin} from './plugin/storeagePlugin';
 
 const IconFont = createFromIconfontCN({
   scriptUrl: new URL('@/assets/js/iconfont.js', import.meta.url).href
@@ -14,6 +15,10 @@ const IconFont = createFromIconfontCN({
 
 const app = createApp(App)
 const pinia = createPinia()
+
+const piniaLocalStoragePlugin = createStoragePlugin(localStorage);
+
+pinia.use(piniaLocalStoragePlugin)
 
 app.component('IconFont', IconFont);
 app.use(Antd)
