@@ -49,6 +49,18 @@ const constantRouterMap = [
               }
             ]
           },
+          {
+            path: '/framework/my',
+            name: 'FrameworkMy',
+            //@ts-ignore
+            component: () => import('@/views/my/Index.vue'),
+            meta: {
+              title: '我的',
+              icon: 'icon-my',
+              isMenu: true,
+              menuType: 1
+            },
+          },
         ]
       },
     ]

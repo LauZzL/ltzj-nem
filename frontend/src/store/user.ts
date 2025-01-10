@@ -23,5 +23,11 @@ export const useUserStore = defineStore('user', () => {
         return _sid.value
     }
 
-    return { user, setSid, setUid, getUid, getSid }
+    const logout = () => {
+        user.value = null
+        _uid.value = null
+        _sid.value = null
+    }
+
+    return { user, setSid, setUid, getUid, getSid, logout }
 })
