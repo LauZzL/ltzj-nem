@@ -73,6 +73,8 @@ const startSunnyCore = async () => {
       loggerStore.log("success", "启动成功，等待登录游戏中")
     }
   } catch (e){
+    // 解决当前页面刷新后，无法访问到wails的api，因为他只注入到/或/index.html页面
+    if(e.toString().includes(`reading 'main'`)) location.href = './'
     Modal.error({
       title: '启动SunnyCore失败',
       content: e,
@@ -100,6 +102,8 @@ const stopSunnyCore = async () => {
       loggerStore.log("success", "停止SunnyCore成功")
     }
   } catch (e) {
+    // 解决当前页面刷新后，无法访问到wails的api，因为他只注入到/或/index.html页面
+    if(e.toString().includes(`reading 'main'`)) location.href = './'
     Modal.error({
       title: '停止SunnyCore失败，请重试',
       content: e,
