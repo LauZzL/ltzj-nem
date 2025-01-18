@@ -69,10 +69,13 @@ cd frontend && yarn install
 
 ```bash
 # 启动前端服务
-cd frontend && yarn dev
+yarn dev:frontend
 
-# 启动wails
-wails dev -frontenddevserverurl "http://127.0.0.1:5173" -s
+# 推荐:启动wails(需要手动启动前端服务)
+wails dev-f
+
+# 启动wails(集成前端服务,在前端页面变动后可能无法实时更新,推荐使用上方命令)
+wails dev
 ```
 
 ## 构建

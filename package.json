@@ -5,6 +5,9 @@
   "author": "LauZzL <lauzzl@163.com>",
   "license": "MIT",
   "scripts": {
+    "dev": "wails dev",
+    "dev-f": "wails dev -frontenddevserverurl \"http://127.0.0.1:5173\" -s",
+    "build": "wails build",
     "frontend:dev": "cd frontend && yarn dev",
     "frontend:build": "cd frontend && yarn build",
     "docs:dev": "cd docs && yarn docs:dev",
