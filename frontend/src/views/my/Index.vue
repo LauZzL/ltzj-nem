@@ -26,12 +26,12 @@
             </div>
             <div>
               <a-space>
-                <a-button>
+                <a-button :loading="statusStore.getBtnLoading()" @click="refreshUser">
                   <template #icon>
                     <RedoOutlined />
                   </template>
                 </a-button>
-                <a-button danger @click="userStore.logout()">退出登录</a-button>
+                <a-button :loading="statusStore.getBtnLoading()" danger @click="userStore.logout()">退出登录</a-button>
               </a-space>
             </div>
           </a-typography-paragraph>
@@ -58,8 +58,12 @@ import {ref} from "vue";
 import type {AnchorProps} from "ant-design-vue";
 import {useUserStore} from "@/store/user.ts";
 import {RedoOutlined} from "@ant-design/icons-vue";
+import {useStatusStore} from "@/store/status.ts";
+import {ApiFactory} from "@/utils/featureFactory.ts";
 
 const userStore = useUserStore()
+const statusStore = useStatusStore()
+
 
 const items = ref([
   {
@@ -73,11 +77,8 @@ const getContainer = () => {
 };
 const handleClick: AnchorProps['onClick'] = (e, link) => {
   e.preventDefault();
-  console.log(link, 'link');
-  console.log(getContainer, 'getContainer');
   if (link.href) {
     let element = document.getElementById(link.href.replace('#', ''))
-    console.log('element', element)
     if (element) {
       element.scrollIntoView({
         behavior: 'smooth'
@@ -85,6 +86,12 @@ const handleClick: AnchorProps['onClick'] = (e, link) => {
     }
   }
 };
+
+
+const refreshUser = async () => {
+  await ApiFactory.execute('refreshUserInfo')
+}
+
 </script>
 
 <style scoped>

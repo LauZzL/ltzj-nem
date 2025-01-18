@@ -1,9 +1,11 @@
 import {requests} from './requests.ts'
 import {useLoggerStore} from "@/store/logger.ts";
+import {useUserStore} from "@/store/user.ts";
 import {gain as Gain} from "@/utils/gain.ts";
 import common from "@/utils/common.ts";
 
 const {log} = useLoggerStore()
+const userStore = useUserStore()
 
 /**
  * 显示奖励，传入gain文本
@@ -94,6 +96,33 @@ export const api = {
             await common.sleep(1000);
             await exec(num - execNum);
         }
+
         await exec(args.num);
-    }
+    },
+
+    refreshUserInfo: async () => {
+        const payload = {
+            "head": {
+                "cmdDataSplitLength": 0,
+                "cmdId": 1,
+                "cmdLength": 0,
+                "cmdSequence": 1,
+                "cmdVersion": 20,
+                "headVersion": 0,
+                "timestamp": 0,
+                "crcVerify": 0,
+                "platform": 0,
+                "reconnect": false,
+                "sid": "",
+                "uid": ""
+            }
+        }
+        let result = await requests.pf(payload)
+        if (result.head.state == 0) {
+            userStore.user = result
+            log('success', `刷新用户信息成功`)
+        } else {
+            log('error', `刷新用户信息失败:${result.head.msg}`)
+        }
+    },
 }

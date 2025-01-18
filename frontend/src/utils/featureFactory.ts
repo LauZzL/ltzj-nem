@@ -29,6 +29,12 @@ const factoryMap: FactoryMap = {
         "executor": async (args: { num: number, type: number}) => {
             return await api.dailyBlueBoxReward(args)
         }
+    },
+    refreshUserInfo:  {
+        "name": "刷新用户信息",
+        "executor": async () => {
+            return await api.refreshUserInfo()
+        }
     }
 }
 
