@@ -11,8 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-gain.js
-frontend/src/assets/test_data
+build/bin
 
 # Editor directories and files
 .vscode/*
