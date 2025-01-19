@@ -19,6 +19,7 @@ interface JsonItem {
     level?: number;
     type?: number;
     icon?: { url: string; url2: string } | undefined;
+    desc?: string;
 }
 
 //@ts-ignore
@@ -136,6 +137,8 @@ function gain2json(e: string, n: boolean): JsonItem {
         "level": k + 1,
         "type": B,
         "icon": icon2url(item.icon),
+        //@ts-ignore
+        "desc": item?.desc
     };
 }
 
