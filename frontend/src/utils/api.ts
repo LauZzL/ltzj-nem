@@ -313,13 +313,11 @@ export const api: Record<string, any> = {
      */
     cdkDo: async () => {
         const payload = PAYLOADS['cdkDo']
-        const cdkS = settingStore.cdk.split('\n')
+        let cdkS = settingStore.cdk.split('\n')
+        // 去除已使用
+        cdkS = cdkS.filter(cdk => !settingStore.usedCdk.includes(cdk))
         for (const cdk of cdkS){
             if (!cdk || cdk.length == 0) {
-                continue
-            }
-            if (settingStore.usedCdk.includes(cdk)) {
-                log('warning', `跳过:${cdk}已兑换`)
                 continue
             }
             log('processing', `开始兑换:${cdk}`)
