@@ -72,7 +72,7 @@ cd frontend && yarn install
 yarn dev:frontend
 
 # 推荐:启动wails(需要手动启动前端服务)
-wails dev-f
+yarn dev-f
 
 # 启动wails(集成前端服务,在前端页面变动后可能无法实时更新,推荐使用上方命令)
 wails dev
