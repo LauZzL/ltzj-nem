@@ -8,35 +8,6 @@ const { setBtnLoading } = useStatusStore()
 const { getUid,getSid } = useUserStore()
 const { log } = useLoggerStore()
 
-interface FactoryExecutor {
-    name: string;
-    executor: Function;
-}
-
-type FactoryMap = {
-    [key: string]: FactoryExecutor;
-};
-
-const factoryMap: FactoryMap = {
-    dailyWheelReward:  {
-        "name": "寻宝转盘",
-        "executor": async (args: { num: number}) => {
-            return await api.dailyWheelReward(args)
-        }
-    },
-    dailyBlueBoxReward:  {
-        "name": "装备宝箱",
-        "executor": async (args: { num: number, type: number}) => {
-            return await api.dailyBlueBoxReward(args)
-        }
-    },
-    refreshUserInfo:  {
-        "name": "刷新用户信息",
-        "executor": async () => {
-            return await api.refreshUserInfo()
-        }
-    }
-}
 
 export const ApiFactory = {
 
@@ -52,10 +23,10 @@ export const ApiFactory = {
         }
         setBtnLoading(true)
         try {
-            if (factoryMap[feature]) {
-                log('processing', `开始执行:${factoryMap[feature].name}`)
-                await factoryMap[feature].executor(args)
-                log('processing', `${factoryMap[feature].name}执行完毕`)
+            if (api[feature]) {
+                log('processing', `开始执行`)
+                await api[feature](args)
+                log('processing', `执行完毕`)
             }else{
                 Modal.error({
                     title: '错误',
