@@ -19,8 +19,6 @@ interface ILog {
 // 在组件中使用ILog接口
 const logs: ILog[] = loggerStore.getLogger() as ILog[];
 
-console.log(logs);
-
 </script>
 
 <template>
