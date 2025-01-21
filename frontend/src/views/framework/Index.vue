@@ -108,9 +108,6 @@ chrome.webview.addEventListener("message", function messageEvent(evt) {
         backpackStore.backpack.items = gain.json_parse4equips(data.data.items);
         backpackStore.backpack.equips = gain.json_parse4equips(data.data.equips);
         break;
-      case 999:
-        hasUpdate(data.message);
-        break;
       case 233:
         settingStore.setting.autoDay = data.data;
         break;
@@ -176,28 +173,6 @@ chrome.webview.addEventListener("message", function messageEvent(evt) {
   }
 });
 
-
-const hasUpdate = (msg) => {
-  ElMessageBox.confirm(
-    msg,
-    '更新提示',
-    {
-      confirmButtonText: '前往更新',
-      cancelButtonText: '取消更新',
-      dangerouslyUseHTMLString: true,
-    }
-  )
-    .then(() => {
-      window.open('https://github.com/LauZzL/ltzj-nem/releases')
-    })
-    .catch(() => {
-      // on cancel
-    })
-}
-
-Webview.sendMessageToHost({
-  cmd: '999'
-})
 
 </script>
 
