@@ -46,7 +46,84 @@ const constantRouterMap = [
                   isMenu: true,
                   menuType: 2
                 },
-              }
+              },
+              {
+                path: '/framework/feature/level',
+                name: 'FrameworkFeatureLevel',
+                //@ts-ignore
+                component: () => import('@/views/feature/level/Index.vue'),
+                meta: {
+                  title: '闯关',
+                  isMenu: true,
+                  menuType: 2
+                },
+              },
+              {
+                path: '/framework/feature/endless',
+                name: 'FrameworkFeatureEndless',
+                //@ts-ignore
+                component: () => import('@/views/feature/endless/Index.vue'),
+                meta: {
+                  title: '无尽',
+                  isMenu: true,
+                  menuType: 2
+                },
+              },
+              {
+                path: '/framework/feature/pvp',
+                name: 'FrameworkFeaturePvp',
+                //@ts-ignore
+                component: () => import('@/views/feature/pvp/Index.vue'),
+                meta: {
+                  title: 'PVP',
+                  isMenu: true,
+                  menuType: 2
+                },
+              },
+              {
+                path: '/framework/feature/period',
+                name: 'FrameworkFeaturePeriod',
+                //@ts-ignore
+                component: () => import('@/views/feature/period/Index.vue'),
+                meta: {
+                  title: '活动关卡',
+                  isMenu: true,
+                  menuType: 2
+                },
+              },
+              {
+                path: '/framework/feature/boss',
+                name: 'FrameworkFeatureBoss',
+                //@ts-ignore
+                component: () => import('@/views/feature/boss/Index.vue'),
+                meta: {
+                  title: 'BOSS关卡',
+                  isMenu: true,
+                  menuType: 2
+                },
+              },
+              {
+                path: '/framework/feature/hyperboss',
+                name: 'FrameworkFeatureHyperBoss',
+                //@ts-ignore
+                component: () => import('@/views/feature/hyperboss/Index.vue'),
+                meta: {
+                  title: '超限BOSS',
+                  isMenu: true,
+                  menuType: 2
+                },
+              },
+              {
+                path: '/framework/feature/expedition',
+                name: 'FrameworkFeatureExpedition',
+                //@ts-ignore
+                component: () => import('@/views/feature/expedition/Index.vue'),
+                meta: {
+                  title: '远征巡航',
+                  isMenu: true,
+                  menuType: 2
+                },
+              },
             ]
           },
           {

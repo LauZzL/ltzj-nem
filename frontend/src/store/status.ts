@@ -7,6 +7,7 @@ export const useStatusStore = defineStore('status', () => {
     const _cmdSequence = ref(0)
     const cmdVersion = ref(20)
     const featureDailyActive = ref(['1'])
+    const dailyMenuSelect = ref([''])
     const _btnLoading = ref(false)
 
 
@@ -35,5 +36,5 @@ export const useStatusStore = defineStore('status', () => {
         return _cmdSequence.value
     }
 
-    return { globalLoading , globalLoadingText, featureDailyActive, cmdVersion, setGlobalLoadingText, setBtnLoading, getBtnLoading, getCmdSequence, setGlobalLoading }
+    return { globalLoading, dailyMenuSelect, globalLoadingText, featureDailyActive, cmdVersion, setGlobalLoadingText, setBtnLoading, getBtnLoading, getCmdSequence, setGlobalLoading }
 })
