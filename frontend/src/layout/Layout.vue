@@ -5,7 +5,7 @@
                 <a-layout>
                     <layout-aside></layout-aside>
                     <a-layout>
-                      <content-menu v-if="router.currentRoute.value.name == 'FrameworkFeatureDaily'" class="content-menu" :items="items"></content-menu>
+                      <content-menu v-if="router.currentRoute.value.name.includes('FrameworkFeature')" class="content-menu" :items="items"></content-menu>
                       <layout-content style="height: 50%; overflow: auto"></layout-content>
                       <Logger class="logger"></Logger>
                     </a-layout>
