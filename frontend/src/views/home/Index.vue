@@ -4,6 +4,18 @@
     <p>
       基于 <a href="https://go.dev/" target="_blank">Golang</a>、<a href="https://vuejs.org/" target="_blank">Vue3</a>、<a href="https://vitejs.dev/" target="_blank">Vite</a> 构建，跨平台、快速、免费。
     </p>
+    <a-alert
+        message="攻打失败请增加对局时间,普通关卡15秒,英雄关卡30秒,96关卡20秒"
+        type="warning"
+        closable
+        style="margin-top: 10px;margin-bottom: 10px"
+    />
+    <a-alert
+        message="加载数据失败可以求助其他人到我的-设置-导出数据来导出需要加载的数据"
+        type="warning"
+        closable
+        style="margin-top: 10px;margin-bottom: 10px"
+    />
     <div class="home-container">
       <a-card>
         <a-space>

@@ -49,27 +49,56 @@
           </a-descriptions>
         </a-typography>
       </div>
+      <div id="setting">
+        <a-typography>
+          <h5>设置</h5>
+          <a-typography-paragraph>
+            <a-space>
+              <a-modal v-model:open="open" title="Bin Cache - 请手动复制信息">
+                <a-textarea v-model:value="infoData"></a-textarea>
+              </a-modal>
+              <a-modal v-model:open="open2" title="Bin Cache - 请将信息粘贴到此处" ok-text="导入" @ok="importData">
+                <a-textarea v-model:value="infoData"></a-textarea>
+              </a-modal>
+              <a-button @click="open2 = true">导入信息</a-button>
+              <a-button @click="exportInfo">导出信息</a-button>
+            </a-space>
+          </a-typography-paragraph>
+        </a-typography>
+
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import {ref} from "vue";
-import type {AnchorProps} from "ant-design-vue";
+import {type AnchorProps, message} from "ant-design-vue";
 import {useUserStore} from "@/store/user.ts";
 import {RedoOutlined} from "@ant-design/icons-vue";
 import {useStatusStore} from "@/store/status.ts";
+import {useBinStore} from "@/store/bin.ts";
 import {ApiFactory} from "@/utils/featureFactory.ts";
 
 const userStore = useUserStore()
 const statusStore = useStatusStore()
+const binStore = useBinStore()
 
+const infoData = ref<string>('')
+
+const open = ref(false)
+const open2 = ref(false)
 
 const items = ref([
   {
     key: '1',
     href: '#user',
     title: '我的',
+  },
+  {
+    key: '2',
+    href: '#setting',
+    title: '设置',
   }
 ])
 const getContainer = () => {
@@ -90,6 +119,23 @@ const handleClick: AnchorProps['onClick'] = (e, link) => {
 
 const refreshUser = async () => {
   await ApiFactory.execute('refreshUserInfo')
+}
+
+const exportInfo = async () => {
+  const data = {
+    binData: binStore.binData,
+    binDataLoaded: binStore.binDataLoaded
+  }
+  infoData.value = JSON.stringify(data)
+  open.value = true
+}
+
+const importData = async () => {
+  const data = JSON.parse(infoData.value)
+  binStore.binData = data.binData
+  binStore.binDataLoaded = data.binDataLoaded
+  open2.value = false
+  message.success('导入成功!');
 }
 
 </script>

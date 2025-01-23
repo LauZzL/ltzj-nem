@@ -127,6 +127,18 @@ const constantRouterMap = [
             ]
           },
           {
+            path: '/framework/script',
+            name: 'FrameworkScript',
+            //@ts-ignore
+            component: () => import('@/views/script/Index.vue'),
+            meta: {
+              title: '脚本',
+              icon: 'icon-java-script',
+              isMenu: true,
+              menuType: 1
+            },
+          },
+          {
             path: '/framework/my',
             name: 'FrameworkMy',
             //@ts-ignore
