@@ -20,11 +20,11 @@ LTZJ-NEM Build 4 完全开源版本，支持 Windows、macOS。
 - [x] SunnyNet集成
 - [x] 获取uid、sid
 - [x] 数据包加解密算法
-- [ ] actionTag算法
+- [x] actionTag算法
 - [x] 奖励格式化
 - [x] 奖励图标
-- [ ] 日常功能迁移
-- [ ] 闯关功能迁移
+- [x] 日常功能迁移
+- [x] 闯关功能迁移
 
 ## 免责声明
 
