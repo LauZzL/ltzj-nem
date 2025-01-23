@@ -94,7 +94,7 @@ function gain2json(e: string, n: boolean): JsonItem {
     else if ("ENERGY" === g)
         return {
             "name": "体力",
-            "color": "yellow",
+            "color": "#ff9002",
             "num": parseInt(f[1])
         };
     else if ("PACK" === g)
@@ -151,7 +151,7 @@ function gain2jsonarray(data: string): JsonItem[] {
         try {
             gain_json_array.push(gain2json(e, true));
         } catch {
-            gain_json_array.push({"name": `未知物品(${e})`, "color": "white", "num": 0});
+            gain_json_array.push({"name": `未知物品(${e})`, "color": "black", "num": 0});
         }
     });
     return gain_json_array;
