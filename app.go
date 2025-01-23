@@ -10,6 +10,7 @@ import (
 	_ "github.com/wailsapp/wails/v2/pkg/runtime"
 	"io"
 	_ "log"
+	"os"
 )
 
 type App struct {
@@ -105,4 +106,15 @@ func HttpCallback(Conn *SunnyNet.HttpConn) {
 		}
 	}
 
+}
+
+// ReadFileToBase64 /**
+func (a *App) ReadFileToBase64(filePath string) (string, error) {
+	fileBytes, err := os.ReadFile(filePath)
+	if err != nil {
+		return "", err
+	}
+	encodedString := base64.StdEncoding.EncodeToString(fileBytes)
+
+	return encodedString, nil
 }
