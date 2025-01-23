@@ -1,0 +1,292 @@
+[
+  {
+    "itemNum": 1,
+    "lootID": 0,
+    "lootItemData": {
+      "lootItemID": 0,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 1,
+    "lootItemData": {
+      "lootItemID": 1,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 2,
+    "lootItemData": {
+      "lootItemID": 2,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 3,
+    "lootItemData": {
+      "lootItemID": 5,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 4,
+    "lootItemData": {
+      "lootItemID": 3,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 2,
+    "lootID": 5,
+    "lootItemData": {
+      "lootItemID": 3,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 4,
+    "lootID": 6,
+    "lootItemData": {
+      "lootItemID": 3,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 8,
+    "lootID": 7,
+    "lootItemData": {
+      "lootItemID": 3,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 8,
+    "lootItemData": {
+      "lootItemID": 9,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 2,
+    "lootID": 9,
+    "lootItemData": {
+      "lootItemID": 9,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 10,
+    "lootItemData": {
+      "lootItemID": 9,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 11,
+    "lootItemData": {
+      "lootItemID": 10,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 80,
+    "lootID": 12,
+    "lootItemData": {
+      "lootItemID": 4,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 13,
+    "lootItemData": {
+      "lootItemID": 6,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 10,
+    "lootID": 14,
+    "lootItemData": {
+      "lootItemID": 11,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 5,
+    "lootID": 15,
+    "lootItemData": {
+      "lootItemID": 11,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 16,
+    "lootItemData": {
+      "lootItemID": 11,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 17,
+    "lootItemData": {
+      "lootItemID": 12,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 18,
+    "lootItemData": {
+      "lootItemID": 12,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 2,
+    "lootID": 19,
+    "lootItemData": {
+      "lootItemID": 12,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 160,
+    "lootID": 20,
+    "lootItemData": {
+      "lootItemID": 4,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 21,
+    "lootItemData": {
+      "lootItemID": 13,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 1,
+    "lootID": 22,
+    "lootItemData": {
+      "lootItemID": 14,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 3,
+    "lootID": 23,
+    "lootItemData": {
+      "lootItemID": 3,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 3,
+    "lootID": 24,
+    "lootItemData": {
+      "lootItemID": 9,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 5,
+    "lootID": 25,
+    "lootItemData": {
+      "lootItemID": 9,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 2,
+    "lootID": 26,
+    "lootItemData": {
+      "lootItemID": 10,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 3,
+    "lootID": 27,
+    "lootItemData": {
+      "lootItemID": 10,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  },
+  {
+    "itemNum": 4,
+    "lootID": 28,
+    "lootItemData": {
+      "lootItemID": 10,
+      "lootLevel": 0,
+      "lootStar": 0,
+      "lootTypeID": 10
+    }
+  }
+]
