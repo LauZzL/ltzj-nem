@@ -1,17 +1,18 @@
 import {useStatusStore} from "@/store/status.ts";
 import {useUserStore} from "@/store/user.ts";
+import {ltzj} from "@/utils/wasm.ts";
 
 const statusStore = useStatusStore()
 const userStore = useUserStore()
 
 const pf = async (payload: any) => {
-  payload.head.cmdVersion = statusStore.cmdVersion
-  payload.head.cmdSequence = statusStore.getCmdSequence()
-  payload.head.sid = userStore.getSid()
-  payload.head.uid = userStore.getUid()
-  payload.head.timestamp = Date.now()
-  //@ts-ignore
-  const buffer = window.ltwasm.encrypt(payload)
+  const _payload = payload
+  _payload.head.cmdVersion = statusStore.getCmdVersion()
+  _payload.head.cmdSequence = statusStore.getCmdSequence()
+  _payload.head.sid = userStore.getSid()
+  _payload.head.uid = userStore.getUid()
+  _payload.head.timestamp = Date.now()
+  const buffer = ltzj.encrypt(_payload)
   const requestOptions: RequestInit = {
     method: "POST",
     redirect: "follow",
@@ -24,8 +25,7 @@ const pf = async (payload: any) => {
   };
 
   const result =  await fetch("https://wxmini.jj5agame.com/p.f", requestOptions);
-  //@ts-ignore
-  return window.ltwasm.decrypt(await result.arrayBuffer())
+  return ltzj.decrypt(await result.arrayBuffer())
 };
 
 export const requests = {
