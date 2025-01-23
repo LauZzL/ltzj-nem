@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import router from "@/router";
-import {computed} from "vue";
+import {computed, onMounted} from "vue";
 import {useStatusStore} from "@/store/status.ts";
 
 const statusStore = useStatusStore();
@@ -23,9 +23,19 @@ const menus = computed(() => {
 
 const navTo = (to: {item: string, key: string, path: string}) => {
   if (to.key) {
-    router.push(to.key);
+    router.push({
+      path: to.key
+    });
   }
 };
+
+onMounted(() => {
+  router.push({
+    path: statusStore.dailyMenuSelect[0]
+  })
+})
+
+
 </script>
 
 <template>
