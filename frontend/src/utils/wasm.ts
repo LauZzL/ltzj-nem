@@ -532,19 +532,20 @@ const ltzj = {
             //@ts-ignore
             return _0x1e2f79.e(new Uint8Array(_0x48ba5a))[a0_0x10cc[4251]];
         } catch (err: any) {
+            console.error(`加密时出现了异常: ${err}, data: ${e}`);
             return err;
         }
     },
 
     // 指定数据类型为arraybuffer
     // 类型错误则无法正常解密
-    decrypt: function (e: ArrayBuffer): string {
+    decrypt: function (e: ArrayBuffer): any {
         try {
             return JSON.parse(
                 TextEncoderDecoder.decodeText(_0x1e2f79.d(new Uint8Array(e)))
             );
         } catch (err: any) {
-            console.error(`解密时出现了异常: ${err}`);
+            console.error(`解密时出现了异常: ${err}, data: ${e}`);
             return err;
         }
     },

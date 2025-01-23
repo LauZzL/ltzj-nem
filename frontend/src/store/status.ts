@@ -5,10 +5,16 @@ export const useStatusStore = defineStore('status', () => {
     const globalLoading = ref(true)
     const _globalLoadingText = ref("")
     const _cmdSequence = ref(0)
-    const cmdVersion = ref(20)
+    const _cmdVersion = ref(30)
     const featureDailyActive = ref(['1'])
+    const levelActive = ref('1');
+    const endlessActive = ref('1');
     const dailyMenuSelect = ref([''])
     const _btnLoading = ref(false)
+
+    const getCmdVersion = () => {
+        return _cmdVersion.value
+    }
 
 
     const setGlobalLoading = (e: boolean) => {
@@ -36,5 +42,5 @@ export const useStatusStore = defineStore('status', () => {
         return _cmdSequence.value
     }
 
-    return { globalLoading, dailyMenuSelect, globalLoadingText, featureDailyActive, cmdVersion, setGlobalLoadingText, setBtnLoading, getBtnLoading, getCmdSequence, setGlobalLoading }
+    return { globalLoading, dailyMenuSelect, levelActive, endlessActive, globalLoadingText, featureDailyActive, getCmdVersion, setGlobalLoadingText, setBtnLoading, getBtnLoading, getCmdSequence, setGlobalLoading }
 })

@@ -3,9 +3,13 @@ import { ref } from 'vue'
 
 export const useUserStore = defineStore('user', () => {
 
-    const user = ref(null)
+    const user = ref<any>(null)
     const _uid = ref(null)
     const _sid = ref(null)
+
+    const setUser = (e: any) => {
+        user.value = e
+    }
 
     const setSid = (e: any) => {
         _sid.value = e
@@ -29,5 +33,5 @@ export const useUserStore = defineStore('user', () => {
         _sid.value = null
     }
 
-    return { user, setSid, setUid, getUid, getSid, logout }
+    return { user, setSid, setUid, getUid, getSid, logout, setUser }
 })
