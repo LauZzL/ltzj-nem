@@ -92,7 +92,7 @@ wails build
 | utils/requests.ts | 请求封装        |
 | utils/common.ts   | 通用工具        |
 | utils/action.ts   | actionTag算法 |
-| utils/wasm.ts     | wasm算法      |
+| lib/ns.ts         | wasm算法      |
 
 ### 如何调用
 

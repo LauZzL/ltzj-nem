@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {load_wasm, ltzj} from './utils/wasm';
 import {useStatusStore} from "@/store/status.ts";
 import {useBinStore} from "@/store/bin.ts";
 import {message} from "ant-design-vue";
@@ -15,6 +14,8 @@ import stage_hyperboss from "@/assets/json/stage_hyperboss.json"
 import stage_expedition from "@/assets/json/stage_expedition.json"
 import {useUserStore} from "@/store/user.ts";
 import {Buffer} from "buffer";
+import {ns} from '@/lib/ns'
+import {ApiFactory} from "@/utils/featureFactory.ts";
 
 
 const statusStore = useStatusStore();
@@ -23,23 +24,12 @@ const binStore = useBinStore();
 const loggerStore = useLoggerStore();
 const userStore = useUserStore();
 
-//@ts-ignore
-window?.runtime?.EventsOn('AppInfo', (e: { Version: string }) => {
-  //@ts-ignore
+
+window?.runtime?.EventsOn('AppInfo', async (e: { Version: string }) => {
   appStore.version = e.Version;
-});
-
-
-(async function () {
   statusStore.setGlobalLoading(true)
-  statusStore.setGlobalLoadingText("加载wasm中...")
-  loggerStore.log("processing", "加载wasm中")
-  await load_wasm()
-  statusStore.setGlobalLoadingText("加载wasm完成")
-  loggerStore.log("success", "加载wasm完成")
   statusStore.setGlobalLoadingText("加载数据中...")
   loggerStore.log("processing", "加载数据中")
-  //@ts-ignore
   const _binConfig = [...stage_normal, ...stage_period, ...stage_boss, ...stage_hero, ...stage_endless, ...stage_hyperboss, ...stage_expedition].filter((item) => !binStore.binDataLoaded.includes(item.name))
   await action.loadAllBin(_binConfig, (file, data) => {
     if (data.length < 1) {
@@ -53,12 +43,24 @@ window?.runtime?.EventsOn('AppInfo', (e: { Version: string }) => {
   statusStore.setGlobalLoadingText("加载数据完成")
   loggerStore.log("success", "加载数据完成")
   statusStore.setGlobalLoading(false)
+});
+
+
+(async function () {
+  statusStore.setGlobalLoading(true)
+  statusStore.setGlobalLoadingText("加载wasm中...")
+  loggerStore.log("processing", "加载wasm中")
+  await ns.init()
+  ns.wasm.n()
+  statusStore.setGlobalLoadingText("加载wasm完成")
+  loggerStore.log("success", "加载wasm完成")
+  statusStore.setGlobalLoading(false)
 })()
 
 
-// @ts-ignore
+
 window?.runtime?.EventsOn('SunnyCallback', (e: string) => {
-  const data: any = ltzj.decrypt(Buffer.from(
+  const data: any = ns.enc.decrypt(Buffer.from(
       e,
       "base64"
   ))
@@ -66,14 +68,11 @@ window?.runtime?.EventsOn('SunnyCallback', (e: string) => {
     userStore.setSid(data.sid)
     userStore.setUid(data.uid)
     statusStore.setBtnLoading(false)
-    message.success("登录成功")
-    loggerStore.log("success", "登录成功")
+    ApiFactory.execute('refreshUserInfo')
   }
   if (data?.zhanli) {
     userStore.setUser(data)
   }
-  //@ts-ignore
-  console.debug(data);
 });
 
 
