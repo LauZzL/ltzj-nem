@@ -103,27 +103,16 @@ const constantRouterMap = [
                 },
               },
               {
-                path: '/framework/feature/hyperboss',
-                name: 'FrameworkFeatureHyperBoss',
+                path: '/framework/feature/timed',
+                name: 'FrameworkFeatureTimed',
                 //@ts-ignore
-                component: () => import('@/views/feature/hyperboss/Index.vue'),
+                component: () => import('@/views/feature/timed/Index.vue'),
                 meta: {
-                  title: '超限BOSS',
+                  title: '限时模式',
                   isMenu: true,
                   menuType: 2
                 },
-              },
-              {
-                path: '/framework/feature/expedition',
-                name: 'FrameworkFeatureExpedition',
-                //@ts-ignore
-                component: () => import('@/views/feature/expedition/Index.vue'),
-                meta: {
-                  title: '远征巡航',
-                  isMenu: true,
-                  menuType: 2
-                },
-              },
+              }
             ]
           },
           {
