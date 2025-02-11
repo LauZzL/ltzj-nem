@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import {ref} from "vue";
+import {useSettingStore} from "@/store/setting";
 import Codemirror from 'codemirror-editor-vue3'
 import 'codemirror/addon/display/placeholder.js'
 import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror/theme/dracula.css'
 import 'codemirror/lib/codemirror.css'
 
+const settingStore = useSettingStore()
 
 const cmOptions = ref({
   mode: 'javascript',
@@ -20,27 +22,14 @@ const cmOptions = ref({
   placeholder: ''
 })
 
-const code = ref('// ==NemScript==\n' +
-    '// @name         example\n' +
-    '// @version      1.0.0\n' +
-    '// @description  example js!\n' +
-    '// @author       example\n' +
-    '// ==/NemScript==\n' +
-    '\n' +
-    '\n' +
-    '(async function(){\n' +
-    '\t\n' +
-    '})()')
-
-
 </script>
 
 <template>
   <Codemirror
-      v-model:value="code"
+      v-model:value="settingStore.code"
       :options="cmOptions"
       border
-      style="height: 95%;"
+      style="height: 80%;"
   />
 </template>
 

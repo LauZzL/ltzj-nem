@@ -36,16 +36,17 @@
             </div>
           </a-typography-paragraph>
           <a-descriptions>
-            <a-descriptions-item label="金币">{{ userStore.user.playerPo.m1 }}</a-descriptions-item>
-            <a-descriptions-item label="钻石">{{ userStore.user.playerPo.m2 }}</a-descriptions-item>
-            <a-descriptions-item label="体力">{{ userStore.user.playerPo.energy }}</a-descriptions-item>
-            <a-descriptions-item label="战力">{{ userStore.user.zhanli }}</a-descriptions-item>
-            <a-descriptions-item label="挑战币">{{ userStore.user.playerPo.pvp_coin }}</a-descriptions-item>
-            <a-descriptions-item label="已获得">{{ userStore.user.playerPo.pack_capability }}</a-descriptions-item>
-            <a-descriptions-item label="氪金">{{ userStore.user.playerPo.rechargeValue }}</a-descriptions-item>
-            <a-descriptions-item label="背包">{{ userStore.user.playerPo.pack_used }}/{{userStore.user.playerPo.pack_capability }}</a-descriptions-item>
-            <a-descriptions-item label="贵族">{{ userStore.user.playerPo.vipLevel }}</a-descriptions-item>
-            <a-descriptions-item label="章节">{{ userStore.user.playerPo.stageState }}</a-descriptions-item>
+            <a-descriptions-item label="金币">{{ userStore.user?.playerPo.m1 }}</a-descriptions-item>
+            <a-descriptions-item label="钻石">{{ userStore.user?.playerPo.m2 }}</a-descriptions-item>
+            <a-descriptions-item label="体力">{{ userStore.user?.playerPo.energy }}</a-descriptions-item>
+            <a-descriptions-item label="战力">{{ userStore.user?.zhanli }}</a-descriptions-item>
+            <a-descriptions-item label="挑战币">{{ userStore.user?.playerPo?.pvp_coin }}</a-descriptions-item>
+            <a-descriptions-item label="已获得">{{ userStore.user?.playerPo?.pack_capability }}</a-descriptions-item>
+            <a-descriptions-item label="氪金">{{ userStore.user?.playerPo?.rechargeValue }}</a-descriptions-item>
+            <a-descriptions-item label="背包">{{ userStore.user?.playerPo?.pack_used }}/{{userStore.user?.playerPo?.pack_capability }}</a-descriptions-item>
+            <a-descriptions-item label="贵族">{{ userStore.user?.playerPo?.vipLevel }}</a-descriptions-item>
+            <a-descriptions-item label="章节">{{ userStore.user?.playerPo?.stageState }}</a-descriptions-item>
+            <a-descriptions-item label="扫荡卡">{{ userStore.user?.sweep?.count }}</a-descriptions-item>
           </a-descriptions>
         </a-typography>
       </div>
@@ -65,7 +66,18 @@
             </a-space>
           </a-typography-paragraph>
         </a-typography>
-
+      </div>
+      <div id="security">
+        <a-typography>
+          <h5>Security</h5>
+          <a-typography-paragraph>
+            <a-form>
+              <a-form-item label="安全模式">
+                <a-switch v-model:checked="settingStore.safeEnable" checked-children="开" un-checked-children="关" />
+              </a-form-item>
+            </a-form>
+          </a-typography-paragraph>
+        </a-typography>
       </div>
     </div>
   </div>
@@ -78,11 +90,13 @@ import {useUserStore} from "@/store/user.ts";
 import {RedoOutlined} from "@ant-design/icons-vue";
 import {useStatusStore} from "@/store/status.ts";
 import {useBinStore} from "@/store/bin.ts";
+import {useSettingStore} from "@/store/setting.ts";
 import {ApiFactory} from "@/utils/featureFactory.ts";
 
 const userStore = useUserStore()
 const statusStore = useStatusStore()
 const binStore = useBinStore()
+const settingStore = useSettingStore()
 
 const infoData = ref<string>('')
 
@@ -99,6 +113,11 @@ const items = ref([
     key: '2',
     href: '#setting',
     title: '设置',
+  },
+  {
+    key: '3',
+    href: '#security',
+    title: 'Security',
   }
 ])
 const getContainer = () => {

@@ -70,8 +70,8 @@ const inputPort = () => {
 
 const startSunnyCore = async () => {
   open.value = false
-  statusStore.setGlobalLoadingText("启动中SunnyCore中...")
-  loggerStore.log("processing", "启动中SunnyCore中")
+  statusStore.setGlobalLoadingText("启动SunnyCore中...")
+  loggerStore.log("processing", "启动SunnyCore中")
   statusStore.setGlobalLoading(true)
   try {
     const result: Result = <Result>await StartSunnyCore(appStore.port)

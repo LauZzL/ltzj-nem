@@ -5,15 +5,22 @@ export const useStatusStore = defineStore('status', () => {
     const globalLoading = ref(true)
     const _globalLoadingText = ref("")
     const _cmdSequence = ref(0)
-    const _cmdVersion = ref(30)
+    const _cmdVersion = ref(31)
+    const _clientVersion = ref("1.5.2")
     const featureDailyActive = ref(['1'])
     const levelActive = ref('1');
+    const timedActive = ref('1');
     const endlessActive = ref('1');
+    const scriptActive = ref('1');
     const dailyMenuSelect = ref([''])
     const _btnLoading = ref(false)
 
     const getCmdVersion = () => {
         return _cmdVersion.value
+    }
+
+    const getClientVersion = () => {
+        return _clientVersion.value
     }
 
 
@@ -42,5 +49,5 @@ export const useStatusStore = defineStore('status', () => {
         return _cmdSequence.value
     }
 
-    return { globalLoading, dailyMenuSelect, levelActive, endlessActive, globalLoadingText, featureDailyActive, getCmdVersion, setGlobalLoadingText, setBtnLoading, getBtnLoading, getCmdSequence, setGlobalLoading }
+    return { globalLoading, dailyMenuSelect, levelActive, timedActive, endlessActive, scriptActive, globalLoadingText, featureDailyActive, getCmdVersion, getClientVersion, setGlobalLoadingText, setBtnLoading, getBtnLoading, getCmdSequence, setGlobalLoading }
 })
