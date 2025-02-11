@@ -52,7 +52,7 @@
         <div style="display: block;width: 100%;margin-top: 10px"/>
         <a-form-item label="操作">
           <a-button :loading="statusStore.getBtnLoading()" @click="ApiFactory.execute('levelAttack', settingStore.levelAttack)">出击</a-button>
-          <a-button :loading="statusStore.getBtnLoading()" style="margin-left: 20px">扫荡</a-button>
+          <a-button :loading="statusStore.getBtnLoading()" @click="ApiFactory.execute('levelSweep', settingStore.levelAttack)" style="margin-left: 20px">扫荡</a-button>
         </a-form-item>
       </a-form>
     </a-tab-pane>

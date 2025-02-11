@@ -3,7 +3,7 @@ import {ref} from 'vue'
 import common from "@/utils/common.ts";
 
 
-type LogType = 'processing' | 'warning' | 'error' | 'success' | 'magenta'
+export type LogType = 'processing' | 'warning' | 'error' | 'success' | 'magenta'
 
 interface LogEntry {
     type: LogType,

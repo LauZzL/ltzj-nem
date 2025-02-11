@@ -1,10 +1,12 @@
 import {requests} from './requests.ts'
-import {useLoggerStore} from "@/store/logger.ts";
+import {type LogType, useLoggerStore} from "@/store/logger.ts";
 import {useUserStore} from "@/store/user.ts";
 import {
     type EndlessAttack,
     type EndlessBuy,
-    type LevelAttack, type PeriodAttack,
+    type HyperBossAttack,
+    type LevelAttack,
+    type PeriodAttack,
     type PvpAttack,
     useSettingStore
 } from "@/store/setting.ts";
@@ -13,11 +15,23 @@ import common from "@/utils/common.ts";
 import {PAYLOADS} from "@/payloads";
 import {action} from "@/utils/action.ts";
 import {useBinStore} from "@/store/bin.ts";
+import {message} from "ant-design-vue";
+// @ts-ignore
+import {ns} from '@/lib/ns.js'
+// @ts-ignore
+import TextCoder from "@/lib/TextCoder";
 
-const {log} = useLoggerStore()
-const userStore = useUserStore()
-const settingStore = useSettingStore()
-const binStore = useBinStore()
+
+//@source-ignore: getMode(type: string) => number
+
+const _getBinStore = () => {
+    return useBinStore()
+}
+
+const log = (type: LogType, msg: string, color?: string | undefined ,icon?: { url: string, url2: string } | undefined) => {
+    const {log} = useLoggerStore()
+    log(type, msg, color, icon)
+}
 
 /**
  * 显示奖励，传入gain文本
@@ -37,11 +51,12 @@ const _logGain = (gain: string) : number => {
     return exp_num
 }
 
-const _getTwoGain = async (arg: number, exp: number) => {
+const _getTwoGain = async (arg: number, exp: number, is_hero: boolean = false) => {
     if(arg<=0)return
     if(arg==2&&exp<3)return
     log('processing', `开始领取双倍奖励`)
     const payload = PAYLOADS['level']['two']
+    if(is_hero) payload.mode = 3
     let result = await requests.pf(payload)
     if (result.head.state == 0) {
         log('success', `领取双倍奖励成功`)
@@ -68,7 +83,8 @@ const _attackNormal = async (args: LevelAttack) => {
         let bossArray = common.getBossCount(args.level)
         if (args.level == 96 || args.is_hero) bossArray = [2, 1, 1]
         if (args.level == 24 && args.is_hero) bossArray = [3, 2, 1]
-
+        //@source-ignore
+        //ns.enc.anti_104_1(null, null)
         let len: number = 0
 
 
@@ -80,38 +96,36 @@ const _attackNormal = async (args: LevelAttack) => {
             load.totalWave = len
             load.totalAction = len
             load.actionIndex = len
-            load.actionTag = action.getActionTag(0, actionInfos, binStore.binData[`stage_${type}_${levelArray[0]}_stage-${levelArray[1]}_data`], type)
+            load.actionTag = action.getActionTag(0, actionInfos, _getBinStore().binData[`stage_${type}_${levelArray[0]}_stage-${levelArray[1]}_data`], type)
             load.scoreMap = common.getScoreMap(load.score)
             await common.sleep(args.attack_timer * 1000)
-            console.log(load, 'load')
             result = await requests.pf(load)
-            console.log(result, 'load')
             if (result.head.state != 0) {
                 log('error', `攻打失败:${result.head.msg}`)
                 break
             }
         }
 
+        //@source-ignore
+        //ns.enc.anti_104_64_256(false);
 
         const end = PAYLOADS['level']['end']
         const actionInfos: any[] = result.actions
         end.bossCount = bossArray[0]
         end.bossSmall = bossArray[1]
         end.bossLarge = bossArray[2]
-        end.actionTag = action.getActionTag(len, actionInfos, binStore.binData[`stage_${type}_${levelArray[0]}_stage-${levelArray[1]}_data`], type)
+        end.actionTag = action.getActionTag(len, actionInfos, _getBinStore().binData[`stage_${type}_${levelArray[0]}_stage-${levelArray[1]}_data`], type)
         end.scoreMap = common.getScoreMap(end.score)
         len = actionInfos.length + len
         end.totalWave = len
         end.totalAction = len
         end.actionIndex = len
         await common.sleep(args.attack_timer * 1000)
-        console.log(end, 'end')
         result = await requests.pf(end)
-        console.log(result, 'end')
         if (result.head.state == 0) {
             log('success', `攻打成功`)
             const exp: number = _logGain(result.head.gain)
-            await _getTwoGain(args.two_gain, exp)
+            await _getTwoGain(args.two_gain, exp, args.is_hero)
         }else{
             log('error', `攻打失败:${result.head.msg}`)
             break
@@ -179,12 +193,16 @@ export const api: Record<string, any> = {
     /**
      * 刷新用户信息
      */
-    refreshUserInfo: async () => {
+    refreshUserInfo: async (args: {auto: boolean} = { auto: false }) => {
+        const userStore = useUserStore()
         const payload = PAYLOADS['refreshUserInfo']
         let result = await requests.pf(payload)
         if (result.head.state == 0) {
             userStore.setUser(result)
             log('success', `刷新用户信息成功`)
+            if (args.auto) {
+                message.success(`登录成功`)
+            }
             return true
         } else {
             log('error', `刷新用户信息失败:${result.head.msg}`)
@@ -412,6 +430,7 @@ export const api: Record<string, any> = {
      * CDK兑换
      */
     cdkDo: async () => {
+        const settingStore = useSettingStore()
         const payload = PAYLOADS['cdkDo']
         let cdkS = settingStore.cdk.split('\n')
         // 去除已使用
@@ -443,6 +462,38 @@ export const api: Record<string, any> = {
     },
 
     /**
+     * 闯关扫荡
+     */
+    levelSweep: async (args: LevelAttack) => {
+        const userStore = useUserStore()
+        const sweepId = userStore.getSweepId()
+        if(!sweepId) {
+            log('error', `扫荡失败:无法获取到扫荡卡数据`)
+            return
+        }
+        if(args.num != 1) args.num = 1
+        for (let i = 0; i < args.num; i++) {
+            log('processing', `开始扫荡关卡:${args.level}`)
+            const payload = PAYLOADS['level']['sweep']
+            const levelArray = common.generateLevel(args.level, args.is_hero?2:8)
+            payload.id = levelArray[0]
+            payload.subId = levelArray[1]
+            payload.sweepCardId = sweepId
+            payload.type = args.is_hero?3:0
+            const result = await requests.pf(payload)
+            if (result.head.state == 0) {
+                log('success', `扫荡成功`)
+                const exp: number = _logGain(result.head.gain)
+                await _getTwoGain(args.two_gain, exp, args.is_hero)
+                await common.sleep(1000)
+            } else {
+                log('error', `扫荡失败:${result.head.msg}`)
+                break
+            }
+        }
+    },
+
+    /**
      * 无尽攻打
      */
     endlessAttack: async (args: EndlessAttack) => {
@@ -458,9 +509,11 @@ export const api: Record<string, any> = {
                 log('error', `进入无尽失败:${result.head.msg}`)
                 break
             }
+            //@source-ignore
+            //ns.enc.anti_104_1(null, null)
             const load = PAYLOADS['endless']['load']
             let actionInfos: any[] = result.actions
-            const actionTag = action.getActionTag(0, actionInfos, binStore.binData['stage_endless_0_stage-0_data'], 'endless')
+            const actionTag = action.getActionTag(0, actionInfos, _getBinStore().binData['stage_endless_0_stage-0_data'], 'endless')
             load.actionTag = actionTag
             load.bossReward = args.reward_num
 
@@ -553,10 +606,12 @@ export const api: Record<string, any> = {
                 log('error', `进入对局失败:${result.head.msg}`)
                 break
             }
+            //@source-ignore
+            //ns.enc.anti_104_1(null, null)
             const end = PAYLOADS['pvp']['end']
             const actionInfos = result.actions
             const len = actionInfos.length
-            end.actionTag = action.getActionTag(0, actionInfos, binStore.binData['stage_endless_0_stage-0_data'], 'endless')
+            end.actionTag = action.getActionTag(0, actionInfos, _getBinStore().binData['stage_endless_0_stage-0_data'], 'endless')
             end.actionIndex = len
             end.totalWave = len
             end.totalAction = len
@@ -579,7 +634,6 @@ export const api: Record<string, any> = {
      * 活动BOSS通用
      */
     periodAttack: async (args: PeriodAttack) => {
-        console.debug(args)
         if(args.num < 0) args.num = 1
         log('processing', args.type == 4 ? `开始攻打活动关卡` : `开始攻打BOSS关卡`)
         const type: "normal" | "endless" | "hero" | "boss" | "period" | "hyperboss" | "expedition"= args.type == 4 ? 'period' : 'boss'
@@ -594,14 +648,17 @@ export const api: Record<string, any> = {
                 log('error', `进入关卡失败:${result.head.msg}`)
                 break
             }
-            const end = PAYLOADS[type]
+            //@source-ignore
+            //ns.enc.anti_104_1(null, null)
+            const end = PAYLOADS[type]['end']
             const actionInfos = result.actions
             const len = actionInfos.length
-            end.actionTag = action.getActionTag(0, actionInfos, binStore.binData[`stage_${type}_${args.id}_stage-${args.sub}_data`], type)
+            end.actionTag = action.getActionTag(0, actionInfos, _getBinStore().binData[`stage_${type}_${args.id}_stage-${args.sub}_data`], type)
             end.actionIndex = len
             end.totalWave = len
             end.totalAction = len
             await common.sleep(args.attack_timer * 1000)
+            console.log(end)
             result = await requests.pf(end)
             if (result.head.state == 0) {
                 log('success', `攻打成功`)
@@ -609,6 +666,49 @@ export const api: Record<string, any> = {
             } else {
                 log('error', `攻打失败:${result.head.msg}`)
                 break
+            }
+        }
+    },
+
+    /**
+     * 超限BOSS
+     */
+    hyperBossAttack: async (args: HyperBossAttack) => {
+        console.log(args)
+        const ids = args.ids
+        const subs = args.subs
+        for (let i = 0; i < ids.length; i++) {
+            for (let j = 0; j < subs.length; j++) {
+                const payload = PAYLOADS['joinGame']
+                payload.id = ids[i]
+                payload.subId = subs[j]
+                payload.hyperBossType = args.hyperBossType
+                payload.type = args.type
+                let result = await requests.pf(payload)
+                if (result.head.state != 0) {
+                    log('error', `进入关卡失败:${result.head.msg}`)
+                    break
+                }
+                //@source-ignore
+                //ns.enc.anti_104_1(null, null)
+                const end = PAYLOADS['boss']['end']
+                const actionInfos = result.actions
+                const len = actionInfos.length
+                end.actionTag = action.getActionTag(0, actionInfos, _getBinStore().binData[`stage_hyperboss_${ids[i]}_stage-${subs[j]}_data`], 'hyperboss')
+                end.actionIndex = len
+                end.totalWave = len
+                end.totalAction = len
+                end.gameDuration = args.attack_timer
+                end.battleDuration = args.attack_timer - 15
+                await common.sleep(10 * 1000)
+                result = await requests.pf(end)
+                if (result.head.state == 0) {
+                    log('success', `攻打成功`)
+                    _logGain(result.head.gain)
+                } else {
+                    log('error', `攻打失败:${result.head.msg}`)
+                    break
+                }
             }
         }
     },

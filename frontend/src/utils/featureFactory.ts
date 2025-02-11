@@ -4,14 +4,17 @@ import {useLoggerStore} from "@/store/logger.ts";
 import {useUserStore} from "@/store/user.ts";
 import { Modal } from "ant-design-vue";
 
-const { setBtnLoading } = useStatusStore()
-const { getUid,getSid } = useUserStore()
-const { log } = useLoggerStore()
+
 
 
 export const ApiFactory = {
 
     execute: async (feature: string, args?: object | null) => {
+
+        const { setBtnLoading } = useStatusStore()
+        const { getUid,getSid } = useUserStore()
+        const { log } = useLoggerStore()
+
         const uid = getUid()
         const sid = getSid()
         if (!uid || !sid) {
