@@ -9,8 +9,10 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	_ "github.com/wailsapp/wails/v2/pkg/runtime"
 	"io"
+	"io/ioutil"
 	_ "log"
 	"os"
+	"path/filepath"
 )
 
 type App struct {
@@ -31,6 +33,11 @@ var (
 		Version: "4.0.0",
 	}
 )
+
+type FileInfo struct {
+	Name   string
+	Source string
+}
 
 func NewApp() *App {
 	return &App{}
@@ -117,4 +124,31 @@ func (a *App) ReadFileToBase64(filePath string) (string, error) {
 	encodedString := base64.StdEncoding.EncodeToString(fileBytes)
 
 	return encodedString, nil
+}
+
+// GetJSFiles returns all .js files in the 'scripts' directory.
+func (a *App) GetJSFiles() ([]FileInfo, error) {
+	dir, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+	scriptsPath := filepath.Join(dir, "scripts")
+	files, err := ioutil.ReadDir(scriptsPath)
+	if err != nil {
+		return nil, err
+	}
+
+	var jsFiles []FileInfo
+
+	for _, file := range files {
+		if !file.IsDir() && filepath.Ext(file.Name()) == ".js" {
+			filePath := filepath.Join(scriptsPath, file.Name())
+			content, err := ioutil.ReadFile(filePath)
+			if err != nil {
+				return nil, err
+			}
+			jsFiles = append(jsFiles, FileInfo{Name: file.Name(), Source: string(content)})
+		}
+	}
+	return jsFiles, nil
 }
