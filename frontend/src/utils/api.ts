@@ -471,7 +471,7 @@ export const api: Record<string, any> = {
             log('error', `扫荡失败:无法获取到扫荡卡数据`)
             return
         }
-        if(args.num != 1) args.num = 1
+        if(args.num < 1) args.num = 1
         for (let i = 0; i < args.num; i++) {
             log('processing', `开始扫荡关卡:${args.level}`)
             const payload = PAYLOADS['level']['sweep']
