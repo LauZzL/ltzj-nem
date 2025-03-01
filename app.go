@@ -56,7 +56,7 @@ func (a App) domReady(ctx context.Context) {
 }
 
 func (a *App) shutdown(ctx context.Context) {
-	// Perform your teardown here
+	a.StopSunnyCore()
 }
 
 func (a *App) StartSunnyCore(port int) Result {
