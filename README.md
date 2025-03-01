@@ -81,6 +81,27 @@ wails dev
 wails build
 ```
 
+
+## 常见问题
+
+### 启动SunnyCore后使用功能提示:请先登录
+
+启动SunnyCore后需要重新登录游戏以获取数据。
+
+### 使用功能提示:版本过低
+
+游戏版本更新后在 `frontend/src/store/status.ts` 修改cmdVersion为最新的即可，可以抓包查看。
+
+### 启动SunnyCore后无法进入游戏
+
+访问 `localhost:端口号` 或 `127.0.0.1:端口号` 安装证书(macOS需要在钥匙串库里信任证书)，安装完成后重试即可。
+
+### 端口占用 listen tco 0.0.0.0:port .......
+
+- 启动SunnyCore时更换其他端口号
+- 使用 `netstat` 查看端口占用情况, 然后使用 `kill -9 进程号` 杀死进程即可。
+- 重启电脑
+
 ## 项目文件介绍
 
 > 所有程序功能都是在前端中实现，Go只用于集成SunnyNet和调用Webview。
