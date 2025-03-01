@@ -494,6 +494,44 @@ export const api: Record<string, any> = {
     },
 
     /**
+     * 闯关自定义
+     */
+    levelCustom: async (args: { rules: any, type: number }) => {
+        if (!args.rules || args.rules.length == 0) {
+            log('error', `执行失败:规则为空`)
+            return
+        }
+        log('processing', `开始执行自定义规则`)
+        const rules = args.rules
+        for (const rule of rules) {
+            const { level, is_hero, two_gain, attack_timer, score} = rule
+            log('processing', `开始${args.type==1?'攻打':'扫荡'}${is_hero?'英雄':'普通'}关卡:${level}`)
+            if (args.type == 1) {
+                await api.levelAttack({
+                    level: level,
+                    num: 1,
+                    sleeps: 0,
+                    attack_timer: attack_timer,
+                    is_hero: is_hero,
+                    two_gain: two_gain,
+                    score: score
+                })
+            }
+            if (args.type == 2) {
+                await api.levelSweep({
+                    level: level,
+                    num: 1,
+                    is_hero: is_hero,
+                    two_gain: two_gain,
+                    attack_timer: attack_timer,
+                    score: score
+                })
+            }
+            await common.sleep(1000)
+        }
+    },
+
+    /**
      * 无尽攻打
      */
     endlessAttack: async (args: EndlessAttack) => {

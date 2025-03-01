@@ -76,6 +76,9 @@ export const useSettingStore = defineStore('setting', () => {
         two_gain: 0,
         score: 10000
     })
+    const customLevelAttack = ref<{rule: string}>({
+        rule: '[{"level":1,"is_hero":false,"score":10000,"two_gain":0,"attack_timer":10}]'
+    })
     const endlessAttack = ref<EndlessAttack>({
         reward_num: 5,
         sleeps: 1000,
@@ -119,5 +122,5 @@ export const useSettingStore = defineStore('setting', () => {
 
 
 
-    return {dailyBlueBoxNum, vipLevel, levelAttack, cdk, usedCdk, endlessAttack, endlessBuy, pvpAttack, periodAttack, bossAttack, httpFlow, hyperBossAttack, code, safeEnable}
+    return {dailyBlueBoxNum, vipLevel, levelAttack, cdk, usedCdk, endlessAttack, endlessBuy, pvpAttack, periodAttack, bossAttack, httpFlow, hyperBossAttack, code, safeEnable, customLevelAttack}
 })
