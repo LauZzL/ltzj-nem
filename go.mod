@@ -1,6 +1,8 @@
 module ltzj-nem
 
-go 1.20
+go 1.21
+
+toolchain go1.22.7
 
 require (
 	github.com/qtgolang/SunnyNet v1.0.3
