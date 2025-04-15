@@ -79,6 +79,28 @@
           </a-typography-paragraph>
         </a-typography>
       </div>
+      <div id="gameConfig">
+        <a-typography>
+          <h5>游戏配置</h5>
+          <a-typography-paragraph>
+            <a-form>
+              <a-form-item label="cmdVersion">
+                <a-input v-model:value="statusStore.cmdVersion" />
+              </a-form-item>
+              <a-form-item label="游戏版本">
+                <a-input v-model:value="statusStore.clientVersion" />
+              </a-form-item>
+              <a-form-item label="action">
+                <a-space>
+                  <a-button :loading="statusStore.getBtnLoading()" @click="updateCmdVersionByClientVersion">
+                    根据版本更新cmdVersion
+                  </a-button>
+                </a-space>
+              </a-form-item>
+            </a-form>
+          </a-typography-paragraph>
+        </a-typography>
+      </div>
     </div>
   </div>
 </template>
@@ -118,6 +140,11 @@ const items = ref([
     key: '3',
     href: '#security',
     title: 'Security',
+  },
+  {
+    key: '4',
+    href: '#gameConfig',
+    title: '游戏配置',
   }
 ])
 const getContainer = () => {
@@ -155,6 +182,18 @@ const importData = async () => {
   binStore.binDataLoaded = data.binDataLoaded
   open2.value = false
   message.success('导入成功!');
+}
+
+const updateCmdVersionByClientVersion = () => {
+  // 1.9.0=10900 1.9.1=10910
+  const parts = statusStore.getClientVersion().split('.').map(Number)
+  if (parts.length != 3) {
+    message.error('版本号格式不正确!');
+    return
+  }
+  const [major, minor, patch] = parts;
+  statusStore.setCmdVersion(major * 10000 + minor * 100 + patch)
+  message.success('cmdVersion更新成功!');
 }
 
 </script>

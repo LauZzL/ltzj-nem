@@ -30,7 +30,7 @@ type AppInfo struct {
 
 var (
 	AppInfoData = AppInfo{
-		Version: "4.0.0",
+		Version: "4.0.1",
 	}
 )
 

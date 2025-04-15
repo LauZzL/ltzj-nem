@@ -63,7 +63,7 @@ cd frontend && yarn install
 yarn frontend:dev
 
 # 推荐:启动wails(需要先启动前端服务)
-yarn dev-f
+yarn wails:dev
 ```
 
 or
