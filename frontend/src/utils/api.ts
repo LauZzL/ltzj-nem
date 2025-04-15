@@ -56,7 +56,7 @@ const _getTwoGain = async (arg: number, exp: number, is_hero: boolean = false) =
     if(arg==2&&exp<3)return
     log('processing', `开始领取双倍奖励`)
     const payload = PAYLOADS['level']['two']
-    if(is_hero) payload.mode = 3
+    payload.mode = is_hero ? 3 : 0
     let result = await requests.pf(payload)
     if (result.head.state == 0) {
         log('success', `领取双倍奖励成功`)
