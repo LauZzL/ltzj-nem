@@ -5,8 +5,8 @@ export const useStatusStore = defineStore('status', () => {
     const globalLoading = ref(true)
     const _globalLoadingText = ref("")
     const _cmdSequence = ref(0)
-    const cmdVersion = ref(10900)
-    const clientVersion = ref("1.5.2")
+    const cmdVersion = ref(11202)
+    const clientVersion = ref("1.12.2")
     const featureDailyActive = ref(['1'])
     const levelActive = ref('1');
     const timedActive = ref('1');

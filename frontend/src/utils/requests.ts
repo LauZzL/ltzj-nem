@@ -1,6 +1,7 @@
 import {useStatusStore} from "@/store/status.ts";
 import {useUserStore} from "@/store/user.ts";
 import {useSettingStore} from "@/store/setting.ts";
+import {AppendToRequestLog} from '@/wailsjs/go/main/App'
 // @ts-ignore
 import {ns} from "@/lib/ns.js";
 
@@ -30,9 +31,12 @@ const pf = async (payload: any) => {
     //@ts-ignore
     responseType: "arraybuffer",
   };
-
   const result =  await fetch("https://wxmini.jj5agame.com/p.f", requestOptions);
-  return ns.enc.decrypt(await result.arrayBuffer())
+  const decrypted = ns.enc.decrypt(await result.arrayBuffer());
+  if(settingStore.logEnable){
+    await AppendToRequestLog(`request : ${JSON.stringify(_payload)}\nresponse : ${JSON.stringify(decrypted)}`);
+  }
+  return decrypted;
 };
 
 export const requests = {

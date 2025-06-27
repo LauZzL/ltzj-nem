@@ -16,7 +16,7 @@ import {useUserStore} from "@/store/user.ts";
 import {Buffer} from "buffer";
 import {ns} from '@/lib/ns'
 import {ApiFactory} from "@/utils/featureFactory.ts";
-
+import {LoadSessionFromFile} from "@/wailsjs/go/main/App";
 
 const statusStore = useStatusStore();
 const appStore = useAppStore();
@@ -54,6 +54,18 @@ window?.runtime?.EventsOn('AppInfo', async (e: { Version: string }) => {
   ns.wasm.n()
   statusStore.setGlobalLoadingText("加载wasm完成")
   loggerStore.log("success", "加载wasm完成")
+  try {
+      loggerStore.log("success", "加载会话中...")
+      const {Code, Msg} = await LoadSessionFromFile();
+      if (Code == 0) {
+          const userInfo = JSON.parse(Msg);
+          userStore.setSid(userInfo.sid);
+          userStore.setUid(userInfo.uid);
+          userStore.setUser(userInfo.user);
+      }
+      loggerStore.log("success", '加载会话完成');
+  } catch (ignored) {
+  }
   statusStore.setGlobalLoading(false)
 })()
 
