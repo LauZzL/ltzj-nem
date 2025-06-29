@@ -65,6 +65,20 @@
               <a-button @click="exportInfo">导出信息</a-button>
             </a-space>
           </a-typography-paragraph>
+          <!-- 新增设置选项 -->
+          <a-typography-paragraph>
+            <a-form>
+              <a-form-item label="开启持久化">
+                  <a-switch v-model:checked="settingStore.persistEnable" checked-children="开"
+                        un-checked-children="关" @change="handlePersistChange"/>
+              </a-form-item>
+
+              <a-form-item label="开启日志记录">
+                <a-switch v-model:checked="settingStore.logEnable" checked-children="开"
+                      un-checked-children="关" @change="handleLogChange"/>
+              </a-form-item>
+            </a-form>
+          </a-typography-paragraph>
         </a-typography>
       </div>
       <div id="security">
@@ -107,13 +121,14 @@
 
 <script lang="ts" setup>
 import {ref} from "vue";
-import {type AnchorProps, message} from "ant-design-vue";
+import {type AnchorProps, message, Modal} from "ant-design-vue";
 import {useUserStore} from "@/store/user.ts";
 import {RedoOutlined} from "@ant-design/icons-vue";
 import {useStatusStore} from "@/store/status.ts";
 import {useBinStore} from "@/store/bin.ts";
 import {useSettingStore} from "@/store/setting.ts";
 import {ApiFactory} from "@/utils/featureFactory.ts";
+import {RemoveLogFile, RemoveSessionFile, SaveSessionToFile} from '@/wailsjs/go/main/App';
 
 const userStore = useUserStore()
 const statusStore = useStatusStore()
@@ -195,7 +210,72 @@ const updateCmdVersionByClientVersion = () => {
   statusStore.setCmdVersion(major * 10000 + minor * 100 + patch)
   message.success('cmdVersion更新成功!');
 }
+// 处理持久化设置变更
+const handlePersistChange = async (checked: boolean) => {
+  const {getUid, getSid} = useUserStore()
+  const uid = getUid()
+  const sid = getSid()
+  if (!uid || !sid) {
+    Modal.error({
+      title: '错误',
+      content: '请先登录游戏',
+    })
+    settingStore.persistEnable = false
+    return
+  }
+  if (checked) {
+    Modal.confirm({
+      title: '安全警告!',
+      icon: '',
+      content: '开启此功能后，您的登录信息将保存在当前目录的session.json文件中。切勿分享此文件，否则会被盗号风险！',
+      okText: '确定',
+      cancelText: '取消',
+      async onOk() {
+        // 保存用户会话信息
+        const sessionData = {
+            user: userStore.user,
+            uid: userStore.getUid(),
+            sid: userStore.getSid()
+        }
+        const {Code, Msg} = await SaveSessionToFile(JSON.stringify(sessionData))
+        if (Code === 0) {
+            message.success('用户信息已保存')
+        } else {
+            message.error(`保存失败: ${Msg}`)
+        }
+      },
+      onCancel() {
+        settingStore.persistEnable = false
+      },
+    });
+  } else {
+      const {Code, Msg} = await RemoveSessionFile();
+      if (Code === 0) {
+          message.success('用户信息已删除')
+      } else {
+          message.error(`删除失败: ${Msg}`)
+      }
+  }
+}
 
+const handleLogChange = async (checked: boolean) => {
+  if (checked) {
+    Modal.confirm({
+      title: '安全警告!',
+      icon: '',
+      content: '开启此功能后，您的登录信息将保存在当前目录的session.json文件中。切勿分享此文件，否则会被盗号风险！',
+      okText: '确定',
+      cancelText: '取消',
+      async onOk() {
+
+      },
+      async onCancel() {
+        settingStore.logEnable = false
+        await RemoveLogFile();
+      },
+    })
+  }
+}
 </script>
 
 <style scoped>

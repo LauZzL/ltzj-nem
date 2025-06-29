@@ -13,6 +13,7 @@ import (
 	_ "log"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 type App struct {
@@ -151,4 +152,155 @@ func (a *App) GetJSFiles() ([]FileInfo, error) {
 		}
 	}
 	return jsFiles, nil
+}
+
+// SaveSessionToFile 保存用户会话信息到文件
+func (a *App) SaveSessionToFile(sessionData string) Result {
+	dir, err := os.Getwd()
+	if err != nil {
+		return Result{
+			Code: -1,
+			Msg:  "获取当前目录失败: " + err.Error(),
+		}
+	}
+	filePath := filepath.Join(dir, "session.json")
+	err = os.WriteFile(filePath, []byte(sessionData), 0644)
+	if err != nil {
+		return Result{
+			Code: -1,
+			Msg:  "保存会话信息失败: " + err.Error(),
+		}
+	}
+	return Result{
+		Code: 0,
+		Msg:  "会话信息保存成功",
+	}
+}
+
+// LoadSessionFromFile 从文件加载用户会话信息
+func (a *App) LoadSessionFromFile() Result {
+	dir, err := os.Getwd()
+	if err != nil {
+		return Result{
+			Code: -1,
+			Msg:  "获取当前目录失败: " + err.Error(),
+		}
+	}
+	filePath := filepath.Join(dir, "session.json")
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return Result{
+			Code: -1,
+			Msg:  "读取会话信息失败: " + err.Error(),
+		}
+	}
+	return Result{
+		Code: 0,
+		Msg:  string(data),
+	}
+}
+
+
+// RemoveSessionFile 移除会话文件
+func (a *App) RemoveSessionFile() Result {
+    dir, err := os.Getwd()
+    if err != nil {
+        return Result{
+            Code: -1,
+            Msg:  "获取当前目录失败: " + err.Error(),
+        }
+    }
+    filePath := filepath.Join(dir, "session.json")
+
+    // 检查文件是否存在
+    if _, err := os.Stat(filePath); os.IsNotExist(err) {
+        return Result{
+            Code: -1,
+            Msg:  "会话文件不存在",
+        }
+    }
+
+    // 移除文件
+    err = os.Remove(filePath)
+    if err != nil {
+        return Result{
+            Code: -1,
+            Msg:  "移除会话文件失败: " + err.Error(),
+        }
+    }
+
+    return Result{
+        Code: 0,
+        Msg:  "会话文件已成功移除",
+    }
+}
+
+// AppendToRequestLog 将请求和响应信息追加到日志文件
+func (a *App) AppendToRequestLog(requestData string) Result {
+	dir, err := os.Getwd()
+	if err != nil {
+		return Result{
+			Code: -1,
+			Msg:  "获取当前目录失败: " + err.Error(),
+		}
+	}
+	filePath := filepath.Join(dir, "request.log")
+
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return Result{
+			Code: -1,
+			Msg:  "打开日志文件失败: " + err.Error(),
+		}
+	}
+	defer file.Close()
+
+	timestamp := time.Now().Format("2006-01-02 15:04:05")
+	logEntry := timestamp + " " + requestData + "\n"
+
+	_, err = file.WriteString(logEntry)
+	if err != nil {
+		return Result{
+			Code: -1,
+			Msg:  "写入日志失败: " + err.Error(),
+		}
+	}
+
+	return Result{
+		Code: 0,
+		Msg:  "日志记录成功",
+	}
+}
+// RemoveLogFile 移除日志文件
+func (a *App) RemoveLogFile() Result {
+    dir, err := os.Getwd()
+    if err != nil {
+        return Result{
+            Code: -1,
+            Msg:  "获取当前目录失败: " + err.Error(),
+        }
+    }
+    filePath := filepath.Join(dir, "request.log")
+
+    // 检查文件是否存在
+    if _, err := os.Stat(filePath); os.IsNotExist(err) {
+        return Result{
+            Code: -1,
+            Msg:  "日志文件不存在",
+        }
+    }
+
+    // 移除文件
+    err = os.Remove(filePath)
+    if err != nil {
+        return Result{
+            Code: -1,
+            Msg:  "移除日志文件失败: " + err.Error(),
+        }
+    }
+
+    return Result{
+        Code: 0,
+        Msg:  "日志文件已成功移除",
+    }
 }

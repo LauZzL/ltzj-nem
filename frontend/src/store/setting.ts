@@ -119,8 +119,8 @@ export const useSettingStore = defineStore('setting', () => {
     })
     const httpFlow = ref<any[]>([])
     const safeEnable = ref<boolean>(true)
+    const persistEnable = ref<boolean>(false) // 新增：持久化设置
+    const logEnable = ref<boolean>(false)     // 新增：日志记录设置
 
-
-
-    return {dailyBlueBoxNum, vipLevel, levelAttack, cdk, usedCdk, endlessAttack, endlessBuy, pvpAttack, periodAttack, bossAttack, httpFlow, hyperBossAttack, code, safeEnable, customLevelAttack}
+    return {dailyBlueBoxNum, vipLevel, levelAttack, cdk, usedCdk, endlessAttack, endlessBuy, pvpAttack, periodAttack, bossAttack, httpFlow, hyperBossAttack, code, safeEnable, customLevelAttack, persistEnable, logEnable}
 })
