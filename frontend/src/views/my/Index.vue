@@ -71,7 +71,6 @@
               <a-form-item label="开启持久化">
                   <a-switch v-model:checked="settingStore.persistEnable" checked-children="开"
                         un-checked-children="关" @change="handlePersistChange"/>
-                  </a-space>
               </a-form-item>
 
               <a-form-item label="开启日志记录">
